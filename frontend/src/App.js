@@ -17,15 +17,18 @@ import AdminEditProductPage from "./pages/admin/AdminEditProductPage.js"
 import HeaderComponent from "./components/HeaderComponent.js";
 import FooterComponent from "./components/FooterComponent.js";
 import RoutesWithUserChatComponent from "./components/user/RoutesWithUserChatComponent.js";
+import ScrollToTop from "./utils/scrollToTop.js";
+
 function App() {
   return (
     <BrowserRouter>
+      <ScrollToTop />
       <HeaderComponent />
       <Routes>
         <Route element={<RoutesWithUserChatComponent />}>
           <Route path="/" element={<HomePage />}></Route>
           <Route path="/cart" element={<CartPage />}></Route>
-          <Route path="/product-detail/:id" element={<ProductDetailPage />}></Route>
+          <Route path="/product-details" element={<ProductDetailPage />}></Route>
           <Route path="/product-list" element={<ProductistPage />}></Route>
           <Route path="/login" element={<LoginPage />}></Route>
           <Route path="/register" element={<RegisterPage />}></Route>
