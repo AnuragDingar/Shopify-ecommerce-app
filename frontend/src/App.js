@@ -18,6 +18,10 @@ import HeaderComponent from "./components/HeaderComponent.js";
 import FooterComponent from "./components/FooterComponent.js";
 import RoutesWithUserChatComponent from "./components/user/RoutesWithUserChatComponent.js";
 import ScrollToTop from "./utils/scrollToTop.js";
+import AdminOrdersPage from "./pages/admin/AdminOrdersPage.js";
+import AdminCreateProductsPage from "./pages/admin/AdminCreateProductPage.js";
+import AdminEditUserPage from "./pages/admin/AdminEditUserPage.js";
+import AdminAnalyticsPage from "./pages/admin/AdminAnalyticsPage.js";
 
 function App() {
   return (
@@ -46,6 +50,11 @@ function App() {
           <Route path="/admin/products" element={<AdminProductsPage />}></Route>
           <Route path="/admin/chats" element={<AdminChatsPage />}></Route>
           <Route path="/admin/edit-product" element={<AdminEditProductPage />}></Route>
+          <Route path="/admin/orders" element={<AdminOrdersPage />}></Route>
+          <Route path="/admin/users" element={<AdminUsersPage />}></Route>
+          <Route path="/admin/edit-user" element={<AdminEditUserPage />}></Route>
+          <Route path="/admin/analytics" element={<AdminAnalyticsPage />}></Route>
+          <Route path="/admin/create-new-product" element={<AdminCreateProductsPage />}></Route>
         </Route>
         <Route path="*" element={"Page does not exist"}></Route>
       </Routes>
