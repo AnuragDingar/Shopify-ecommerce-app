@@ -1,7 +1,12 @@
 const express = require('express')
+const fileUpload = require("express-fileupload")
 const app = express()
 const port = 3000
 const apiRoutes = require("./routes/apiRoutes")
+
+// to recognise json data
+app.use(express.json())
+app.use(fileUpload())
 
 app.get('/', async(req, res, next) => {
     const Product = require("./models/ProductModel")
@@ -32,11 +37,21 @@ connectDB();
     },1000)
 }) */
 
+app.use('/api', apiRoutes);
+
 app.use((error, req, res, next) => {
     console.error(error);
-    next()
-})
-app.use('/api', apiRoutes)
+    next(error)
+});
+
+app.use((error, req, res, next) => {
+    res.status(500).json({
+        message: error.message,
+        stack: error.stack,
+    });
+    //next()
+});
+
 
 app.listen(port, () => {
     console.log(`Example app listening on port ${port}`)
