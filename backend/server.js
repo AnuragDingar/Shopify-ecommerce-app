@@ -1,11 +1,13 @@
 const express = require('express')
 const fileUpload = require("express-fileupload")
+const cookieParser = require("cookie-parser")
 const app = express()
 const port = 3000
 const apiRoutes = require("./routes/apiRoutes")
 
 // to recognise json data
 app.use(express.json())
+app.use(cookieParser())
 app.use(fileUpload())
 
 app.get('/', async(req, res, next) => {

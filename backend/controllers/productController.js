@@ -1,3 +1,4 @@
+const { decode } = require("punycode");
 const recordsPerPage = require("../config/pagination")
 const Product = require("../models/ProductModel");
 const imageValidate = require("../utils/imageValidate")
@@ -254,6 +255,7 @@ const adminUpload = async (req, res, next) => {
         const { v4: uuidv4 } = require("uuid")
         const uploadDirectory = path.resolve(__dirname, "../../frontend", "public", "images", "products");
 
+        let product = await Product.findById(req.query.productId).orFail()
         let imagesTable = []
 
         if (Array.isArray(req.files.images)) {
@@ -266,7 +268,10 @@ const adminUpload = async (req, res, next) => {
             // console.log(image);
             // console.log(path.extname(image.name));
             // console.log(uuidv4());
-            var uploadPath = uploadDirectory + "/" + uuidv4() + path.extname(image.name);
+
+            var fileName = uuidv4() + path.extname(image.name);
+            var uploadPath = uploadDirectory + "/" + fileName;
+            product.images.push({ path: "/images/products/" + fileName })
 
             image.mv(uploadPath, function (err) {
                 if (err) {
@@ -275,6 +280,8 @@ const adminUpload = async (req, res, next) => {
             })
 
         }
+
+        await product.save();
 
         return res.send("Files uploaded!")
 
@@ -288,4 +295,29 @@ const adminUpload = async (req, res, next) => {
     }
 }
 
-module.exports = { getProducts, getProductById, getBestSellers, adminGetProducts, adminDeleteProduct, adminCreateProduct, adminUpdateProduct, adminUpload };
+const adminDeleteProductImage = async (req, res, next) => {
+    try {
+        const imagePath = decodeURIComponent(req.params.imagePath);
+
+        const path = require("path");
+        const finalPath = path.resolve("../frontend/public") + imagePath;
+
+        console.log("finalPath", finalPath);
+
+        const fs = require("fs")
+        fs.unlink(finalPath, (err) => {
+            if (err) {
+                res.status(500).send(err)
+            }
+        })
+
+        await Product.findOneAndUpdate({ _id: req.params.productId },
+            { $pull: { images: { path: imagePath } } }).orFail();
+
+        return res.end();
+    } catch (err) {
+        next(err)
+    }
+}
+
+module.exports = { getProducts, getProductById, getBestSellers, adminGetProducts, adminDeleteProduct, adminCreateProduct, adminUpdateProduct, adminUpload, adminDeleteProductImage };
