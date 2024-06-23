@@ -2,7 +2,7 @@ const express = require('express')
 const fileUpload = require("express-fileupload")
 const cookieParser = require("cookie-parser")
 const app = express()
-const port = 3000
+const port = 5000
 const apiRoutes = require("./routes/apiRoutes")
 
 // to recognise json data
@@ -10,7 +10,7 @@ app.use(express.json())
 app.use(cookieParser())
 app.use(fileUpload())
 
-app.get('/', async(req, res, next) => {
+app.get('/', async (req, res, next) => {
     const Product = require("./models/ProductModel")
     try {
         const product = new Product
@@ -20,7 +20,7 @@ app.get('/', async(req, res, next) => {
         const products = await Product.find()
         console.log(products.length)
         res.send("Product created" + product._id)
-    } catch(error) {
+    } catch (error) {
         next(error);
     }
     //res.json({message: "API running..."})
@@ -42,6 +42,18 @@ connectDB();
 app.use('/api', apiRoutes);
 
 app.use((error, req, res, next) => {
+    // no need to show errors in production
+    if (process.env.NODE_ENV === "development") {
+        res.status(500).json({
+            message: error.message,
+            stack: error.stack,
+        })
+    } else {
+        res.status(500).json({
+            message: error.message
+        })
+    }
+
     console.error(error);
     next(error)
 });

@@ -26,21 +26,26 @@ const importData = async () => {
         await User.collection.deleteMany({})
         await Order.collection.deleteMany({})
 
-        await Category.insertMany(categoryData)
-        
-        const reviews = await Review.insertMany(reviewData)
-        const sampleProducts = productData.map((product) => {
-            reviews.map((review) => {
-                product.reviews.push(review._id)
-            })
-            return { ...product}
-        })
-        await Product.insertMany(sampleProducts)
-        await User.insertMany(userData)
-        await Order.insertMany(orderData)
+        if (process.argv[2] !== "-d") {
+            await Category.insertMany(categoryData)
 
-        console.log("Seeder data proceeded successfully")
-        process.exit()
+            const reviews = await Review.insertMany(reviewData)
+            const sampleProducts = productData.map((product) => {
+                reviews.map((review) => {
+                    product.reviews.push(review._id)
+                })
+                return { ...product }
+            })
+            await Product.insertMany(sampleProducts)
+            await User.insertMany(userData)
+            await Order.insertMany(orderData)
+
+            console.log("Seeder data imported successfully")
+            process.exit()
+        }
+
+        console.log("Seeder data deleted successfully")
+
     } catch (error) {
         console.error("Error while proccessing seeder data", error)
         process.exit(1);

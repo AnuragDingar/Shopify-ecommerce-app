@@ -8,7 +8,10 @@ import AttributesFilterComponent from "../components/filterQueryResultOptions/At
 import ProductForListComponent from "../components/ProductForListComponent";
 import PaginationComponent from "../components/PaginationComponent";
 
+import axios from "axios";
+
 const ProductistPage = () => {
+    axios.get("/api/products").then((res) =>  console.log(res));
     return (
         <Container fluid>
             <Row>
@@ -20,7 +23,7 @@ const ProductistPage = () => {
                         <ListGroup.Item><CategoryFilterComponent /></ListGroup.Item>
                         <ListGroup.Item><AttributesFilterComponent /></ListGroup.Item>
                         <ListGroup.Item>
-                            <Button variant="primary">Filter</Button>
+                            <Button variant="primary">Filter</Button>{" "}
                             <Button variant="danger">Reset filters</Button>
                         </ListGroup.Item>
                     </ListGroup>
