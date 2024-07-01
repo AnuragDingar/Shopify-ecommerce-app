@@ -5,7 +5,8 @@ const Product = require("../models/ProductModel");
 // get orders by user_id not id
 const getUserOrders = async (req, res, next) => {
     try {
-        const orders = await Order.find({ user: req.user._id });
+        console.log("getUserOrders req", req.user)
+        const orders = await Order.find({ user: req.user });
         res.send(orders);
     } catch (err) {
         next(err);
@@ -26,6 +27,7 @@ const getOrder = async (req, res, next) => {
 
 const createOrder = async (req, res, next) => {
     try {
+        console.log("getUserOrders req", req)
         const { cartItems, orderTotal, paymentMethod } = req.body;
         if (!(cartItems && orderTotal && paymentMethod)) {
             return res.status(400).send("All inputs are required");

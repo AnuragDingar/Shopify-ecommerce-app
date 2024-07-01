@@ -22,6 +22,7 @@ import AdminOrdersPage from "./pages/admin/AdminOrdersPage.js";
 import AdminCreateProductsPage from "./pages/admin/AdminCreateProductPage.js";
 import AdminEditUserPage from "./pages/admin/AdminEditUserPage.js";
 import AdminAnalyticsPage from "./pages/admin/AdminAnalyticsPage.js";
+import AdminOrdersDetailsPage from "./pages/admin//AdminOrdersDetailsPage.js"
 
 function App() {
   return (
@@ -51,6 +52,7 @@ function App() {
           <Route path="/admin/chats" element={<AdminChatsPage />}></Route>
           <Route path="/admin/edit-product" element={<AdminEditProductPage />}></Route>
           <Route path="/admin/orders" element={<AdminOrdersPage />}></Route>
+          <Route path="/admin/order-details/:id" element={<AdminOrdersDetailsPage />}></Route>
           <Route path="/admin/users" element={<AdminUsersPage />}></Route>
           <Route path="/admin/edit-user" element={<AdminEditUserPage />}></Route>
           <Route path="/admin/analytics" element={<AdminAnalyticsPage />}></Route>

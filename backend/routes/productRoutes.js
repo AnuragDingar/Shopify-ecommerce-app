@@ -17,7 +17,7 @@ router.get("/bestSellers", getBestSellers);
 router.use(verifyIsLoggedIn);
 router.use(verifyIsAdmin);
 router.get("/admin", adminGetProducts);
-router.get("/admin/:id", adminDeleteProduct);
+router.delete("/admin/:id", adminDeleteProduct);
 router.post("/admin", adminCreateProduct);
 router.put("/admin/:id", adminUpdateProduct);
 router.post("/admin/upload", adminUpload);

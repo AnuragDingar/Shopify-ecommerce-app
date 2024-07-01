@@ -1,59 +1,28 @@
-import { Button, Col, Row, Table } from "react-bootstrap";
-import AdminLinksComponent from "../../components/admin/AdminLinksComponent";
-import { LinkContainer } from "react-router-bootstrap";
+import UsersPageComponent from "./components/UserPageComponent";
+import axios from "axios";
 
-const deleteHandler = () =>{
-    if(window.confirm("Are you sure?")) alert("User deleted!")
+
+const fetchUsers = async(abctrl) => {
+    const signal = abctrl && abctrl.signal ? abctrl.signal : "";
+    const {data} = await axios.get("/api/users", {
+        signal
+    });
+    return data;
+    //console.log("users", users)
 }
+
+const deleteUser = async(userId) => {
+    const {data} = await axios.delete(`/api/users/${userId}`);
+    return data;
+    //console.log("users", users)
+}
+
 const AdminUsersPage = () => {
-
-    return (
-        <Row className="m-5">
-            <Col md={2}>
-                <AdminLinksComponent />
-            </Col>
-            <Col md={10}>
-                <h1>Orders</h1>
-                <Table striped bordered hover responsive>
-                    <thead>
-                        <tr>
-                            <th>#</th>
-                            <th>First Name</th>
-                            <th>Last Name</th>
-                            <th>Email</th>
-                            <th>Is Admin</th>
-                            <th>Edit/Delete</th>
-                        </tr>
-                    </thead>
-                    {["bi bi-check-lg text-success", "bi bi-x-lg text-danger"].map((item, idx) => (
-                        <tbody>
-                            <tr key={idx}>
-                                <td>{idx + 1}</td>
-                                <td>Mark </td>
-                                <td>Wood </td>
-                                <td>mark.wood02@gmail.com</td>
-                                <td>
-                                    <i className={item}></i>
-                                </td>
-                                <td>
-                                    <LinkContainer to="/admin/edit-user">
-                                        <Button className="btn-sm">
-                                            <i className="bi bi-pencil-square"></i>
-                                        </Button>
-                                    </LinkContainer>
-                                    {" / "}
-                                    <Button variant="danger" className="btn-sm" onClick={deleteHandler}>
-                                        <i className="bi bi-x-circle"></i>
-                                    </Button>
-                                </td>
-                            </tr>
-                        </tbody>)
-                    )}
-                </Table>
-            </Col>
-        </Row>
-    )
-
+    // here code is divided and moved to below component so that component can be fully /testable.
+    return <UsersPageComponent 
+    fetchUsers={fetchUsers}
+    deleteUser={deleteUser}
+    />;
 };
 
 export default AdminUsersPage;

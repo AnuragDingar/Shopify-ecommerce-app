@@ -8,13 +8,13 @@ const CartPage = () => {
                 <Col md={8}>
                     <h1>Shopping Cart</h1>
                     <ListGroup variant="flush">
-                    {Array.from({ length: 3 }).map((item,idx) => (
-                        <CartItemComponent key={idx}/>
-                    ))}
+                        {Array.from({ length: 3 }).map((item, idx) => (
+                            <CartItemComponent key={idx} item={{ image: { path: "/images/tablests-category.png" }, name: "Product name", price: 10, count: 10, quantity: 10 }} />
+                        ))}
                     </ListGroup>
                     <Alert variant="info">Your cart is empty</Alert>
                 </Col>
-                <Col md={4}>
+                <Col md={4}>count:10, quantity:10
                     <ListGroup>
                         <ListGroup.Item>
                             <h3>Subtotal (2 Items)</h3>

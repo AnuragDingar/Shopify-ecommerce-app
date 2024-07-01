@@ -254,10 +254,17 @@ const updateUser = async (req, res, next) => {
 
 const deleteUser = async (req, res, next) => {
     try {
-        const users = await User.findById(req.params.id).orFail();
-        await user.remove();
+        console.log("req.paramsr", req.params);
+        const user = await User.findById(req.params.id).orFail();
+        if(!user) {
+            console.log("user null", user)
+            res.status(404).send("user removed");
+        }
+        console.log("user hai", user)
+        await user.deleteOne();
 
-        res.send("user removed");
+        console.log("user removed", user)
+        return res.status(200).send("user removed");
     } catch (err) {
         next(err);
     }

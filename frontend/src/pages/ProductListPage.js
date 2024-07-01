@@ -8,10 +8,10 @@ import AttributesFilterComponent from "../components/filterQueryResultOptions/At
 import ProductForListComponent from "../components/ProductForListComponent";
 import PaginationComponent from "../components/PaginationComponent";
 
-import axios from "axios";
+
 
 const ProductistPage = () => {
-    axios.get("/api/products").then((res) =>  console.log(res));
+
     return (
         <Container fluid>
             <Row>
