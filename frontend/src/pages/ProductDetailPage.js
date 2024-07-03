@@ -3,12 +3,28 @@ import AddedToCartMessageComponent from "../components/AddedToCartMessageCompone
 import { Rating } from 'react-simple-star-rating';
 import { useEffect } from "react";
 import ImageZoom from "js-image-zoom";
+import { useDispatch, useSelector } from "react-redux";
+import { addToCart } from "../redux/reducer/counterSlice";
 
 const ProductDetailPage = () => {
+    const count = useSelector(state => state.counter.value)
+
+    const dispatch = useDispatch();
+
+    const addToCartHandler = () => {
+        console.log('Dispatching addToCart action');
+        dispatch(addToCart());
+    }
+    
     var options = {
         scale: 2,
-        offset: { vertical:0, horizontal: 0},
+        offset: { vertical: 0, horizontal: 0 },
     }
+    useEffect(() => {
+        console.log("count", count)
+    }, [count]);
+
+
     useEffect(() => {
         new ImageZoom(document.getElementById("first"), options);
         new ImageZoom(document.getElementById("second"), options);
@@ -20,7 +36,7 @@ const ProductDetailPage = () => {
         <Container>
             <AddedToCartMessageComponent />
             <Row className="mt-5">
-                <Col style= {{ zIndex: 1}} md={4}>
+                <Col style={{ zIndex: 1 }} md={4}>
                     <div id="first">
                         <Image fluid src="images/games-category.png" />
                     </div>
@@ -66,7 +82,7 @@ const ProductDetailPage = () => {
                                     </Form.Select>
                                 </ListGroup.Item>
                                 <ListGroup.Item>
-                                    <Button variant="danger">Add to cart</Button>
+                                    <Button onClick={addToCartHandler} variant="danger">Add to cart</Button>
                                 </ListGroup.Item>
                             </ListGroup>
                         </Col>
