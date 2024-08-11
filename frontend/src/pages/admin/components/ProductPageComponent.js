@@ -3,16 +3,19 @@ import { Button, Col, Row, Table } from "react-bootstrap";
 import AdminLinksComponent from "../../../components/admin/AdminLinksComponent";
 import { LinkContainer } from "react-router-bootstrap";
 import { useState, useEffect } from "react";
+import { useDispatch } from "react-redux";
+import { logOutAction } from "../../../redux/reducer/loginReducer"
 
-const ProductPageComonent = ({fetchProducts, deleteProduct}) => {
+const ProductPageComonent = ({ fetchProducts, deleteProduct }) => {
 
     const [products, setProducts] = useState([]);
     const [productDeleted, setProductDeleted] = useState(false);
+    const dispatch = useDispatch();
 
     const deleteHandler = async (productId) => {
         if (window.confirm("Are you sure?")) {
             const data = await deleteProduct(productId);
-            if(data.message === 'product removed') {
+            if (data.message === 'product removed') {
                 setProductDeleted(true);
             }
         }
@@ -21,8 +24,11 @@ const ProductPageComonent = ({fetchProducts, deleteProduct}) => {
     useEffect(() => {
         const abctrl = new AbortController();
         fetchProducts(abctrl).then(res => setProducts(res))
-            .catch((err) =>
-                console.log(err));
+            .catch((err) => {
+                dispatch(logOutAction());
+                console.log(err)
+            }
+            );
         return () => abctrl.abort();
     }, [productDeleted])
 

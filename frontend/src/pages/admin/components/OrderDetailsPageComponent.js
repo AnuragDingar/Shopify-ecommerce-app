@@ -2,7 +2,8 @@ import { Alert, Button, Col, Container, Form, ListGroup, Row } from "react-boots
 import CartItemComponent from '../../../components/CartItemComponent';
 import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
-
+import { useDispatch } from "react-redux";
+import { logOutAction } from "../../../redux/reducer/loginReducer"
 
 const OrderDetailsPageComponent = ({ fetchOrders, markAsDelivered }) => {
     const { id } = useParams();
@@ -14,7 +15,8 @@ const OrderDetailsPageComponent = ({ fetchOrders, markAsDelivered }) => {
     const [buttonDisabled, setButttonDisabled] = useState(false);
     const [orderButtonMessage, setOrderButtonMessage] = useState("Mark as delivered");
     const [cartItems, setCartItems] = useState([]);
-
+    const dispatch = useDispatch();
+    
     useEffect(() => {
         const abctrl = new AbortController();
         fetchOrders(id)
@@ -30,10 +32,13 @@ const OrderDetailsPageComponent = ({ fetchOrders, markAsDelivered }) => {
                 }
                 setCartItems(order.cartItems);
             })
-            .catch((err) =>
-                console.log(err));
+            .catch((err) => {
+                console.log(err)
+                dispatch(logOutAction());
+            }
+                );
         return () => abctrl.abort();
-    }, [id, isDelivered])
+    }, [id, fetchOrders, dispatch])
 
     return (
         <Container fluid>

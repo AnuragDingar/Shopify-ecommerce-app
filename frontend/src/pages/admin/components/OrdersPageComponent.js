@@ -2,12 +2,14 @@ import { Col, Row, Table } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import AdminLinksComponent from "../../../components/admin/AdminLinksComponent";
 import { useState, useEffect } from "react";
-
+import { useDispatch } from "react-redux";
+import { logOutAction } from "../../../redux/reducer/loginReducer"
 
 const OrdersPageComponent = ({ fetchOrders, deleteOrders }) => {
 
     const [orders, setOrders] = useState([]);
     const [orderDeleted, setOrderDeleted] = useState(false);
+    const dispatch = useDispatch();
 
     /*  const deleteHandler = async (orderId) => {
          if (window.confirm("Are you sure?")) {
@@ -21,8 +23,12 @@ const OrdersPageComponent = ({ fetchOrders, deleteOrders }) => {
     useEffect(() => {
         const abctrl = new AbortController();
         fetchOrders(abctrl).then(res => setOrders(res))
-            .catch((err) =>
-                console.log(err));
+            .catch((err) => {
+                if (err.name !== 'CanceledError') {
+                    dispatch(logOutAction());
+                }
+                console.log("err in orderPage component", err)
+            });
         return () => abctrl.abort();
     }, [])
 

@@ -2,16 +2,19 @@ import { Button, Col, Row, Table } from "react-bootstrap";
 import AdminLinksComponent from "../../../components/admin/AdminLinksComponent";
 import { LinkContainer } from "react-router-bootstrap";
 import { useState, useEffect } from "react";
+import { useDispatch } from "react-redux";
+import { logOutAction } from "../../../redux/reducer/loginReducer"
 
 const UsersPageComponent = ({ fetchUsers, deleteUser }) => {
 
     const [users, setUsers] = useState([]);
     const [userDeleted, setUserDeleted] = useState(false);
+    const dispatch = useDispatch();
 
     const deleteHandler = async (userId) => {
         if (window.confirm("Are you sure?")) {
             const data = await deleteUser(userId);
-            if(data === 'user removed') {
+            if (data === 'user removed') {
                 setUserDeleted(true);
             }
         }
@@ -20,8 +23,10 @@ const UsersPageComponent = ({ fetchUsers, deleteUser }) => {
     useEffect(() => {
         const abctrl = new AbortController();
         fetchUsers(abctrl).then(res => setUsers(res))
-            .catch((err) =>
-                console.log(err));
+            .catch((err) => {
+                dispatch(logOutAction);
+                console.log(err)
+            });
         return () => abctrl.abort();
     }, [userDeleted])
 

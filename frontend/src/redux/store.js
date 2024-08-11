@@ -1,12 +1,14 @@
 import { configureStore } from '@reduxjs/toolkit'
 import counterReducer from './reducer/counterSlice';
+import userRegisterLoginReducer from './reducer/loginReducer';
 //import { thunk } from 'redux-thunk';
 //import counterReducer from './reducer/counterSlice';
 
 
 export default configureStore({
     reducer: {
-        counter: counterReducer
+        counter: counterReducer,
+        userRegisterLogin: userRegisterLoginReducer,
     }
 })
 
