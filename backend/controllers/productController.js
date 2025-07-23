@@ -44,7 +44,7 @@ const getProducts = async (req, res, next) => {
             categoryQuery = { category: regEx }
         }
 
-        // http://localhost:3000/api/products?attrs=RAM-1 TB-2 TB,color-blue-red-black
+        // http://localhost:3000/api/products?attrs=RAM-1TB-2TB,color-blue-red-black
         // attributes
         let attrsQueryCondition = [];
         if (req.query.attrs) {

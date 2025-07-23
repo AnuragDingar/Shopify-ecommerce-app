@@ -38,6 +38,7 @@ const productSchema = mongoose.Schema({
     },
     attrs: [
         {key: {type: String}, value: {type: String}}
+        // [{key: 'color', value: 'red'}, {key: 'size', value: '1TB'}]
     ],
     images: [imageSchema],
     reviews: [

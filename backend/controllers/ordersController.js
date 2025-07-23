@@ -127,3 +127,6 @@ const getOrderForAnalysis = async (req, res, next) => {
 
 
 module.exports = { getUserOrders, getOrder, createOrder, updatedOrderToPaid, updatedOrderToDelivered, getAdminOrders, getOrderForAnalysis };
+
+
+/*order.find({ $and: [ { name: "Anurag"}, { color: {$all: ["red", "blue"]}}, {price : {$gte: 5000}} ] }, { id:1, name: 1, color: 1, price: 1 })*/
