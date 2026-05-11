@@ -1,5 +1,24 @@
+import LoginPageComponent from "./components/LoginPageComponent"
+import axios from "axios";
+import { useDispatch } from "react-redux";
+import { loginUser } from "../redux/reducer/loginReducer"
+
+const loginUserApiRequest = async (email, password, doNotLogout) => {
+    const { data } = await axios.post("/api/users/login", { email, password, doNotLogout });
+
+    if (data.userLoggedIn.doNotLogout) {
+        localStorage.setItem("userInfo", JSON.stringify(data.userLoggedIn));
+    } else {
+        sessionStorage.setItem("userInfo", JSON.stringify(data.userLoggedIn));
+    }
+    return data;
+}
+
 const LoginPage = () => {
-    return <p> This is Login Page</p>
+    const reduxDispatch = useDispatch();
+
+    return <LoginPageComponent loginUserApiRequest={loginUserApiRequest}
+        reduxDispatch={reduxDispatch} setReduxUserState={loginUser} />
 };
 
 export default LoginPage;
